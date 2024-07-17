@@ -3,9 +3,6 @@
 /node_modules
 /build
 
-# media
-/videos/*
-
 # Logs
 logs
 *.log
