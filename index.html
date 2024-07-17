@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="stylesheets/video-js.css" rel="stylesheet" />
+    <link href="stylesheets/vjs-theme-forest.css" rel="stylesheet">
+    <script src="node_modules/vue/vue.global.prod.js"></script>
+    <script src="node_modules/videojs/video.min.js"></script>
+    <style>
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 95dvw;
+            padding: 5dvw
+        }
+
+        .video-js.vjs-theme-forest{
+            /* Responsive Größe */
+            width:40dvw;
+            height:calc(40dvw*(9/16));
+            margin: 15px;
+            
+        }
+   
+    </style>
+</head>
+<body>
+    <div id="app" style="display: flex; justify-content: center;">
+        <div class="wrapper">
+
+            <video v-if="video_paths" v-for="(video_path, index) in video_paths" :id="'videoPlayer'+index"
+            class="video-js vjs-theme-forest" controls loop style="border-radius: 10px;"></video>
+
+        </div>
+       <script src="app.js"></script>
+
+    </div>
+
+</body>
