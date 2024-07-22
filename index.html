@@ -47,6 +47,35 @@
         .video-js.vjs-theme-forest .vjs-fullscreen-control {
             display: none
         }
+
+        /* Modal Header */
+        .modal-header {
+            padding: 2px 16px;
+        }
+
+
+        /* Modal Content */
+        .modal-content {
+            position: absolute;
+            background-color: #fefefe;
+            border: 1px solid #888;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        }
+
+        /* The Close Button */
+        .close {
+        color: black;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+        color: grey;
+        text-decoration: none;
+        cursor: pointer;
+        }
    
     </style>
 </head>
@@ -59,11 +88,21 @@
                 <p class="video-subtitles">{{video_basenames[index]}}</p>
             </div>
 
+
+        </div>
+
+
+        <div class="modal-content" v-show="display_main_player">
+            <div class="modal-header">
+              <span class="close" @click="closePlayer()">&times;</span>
+              <h2>{{video_basenames[selected_video_id]}}</h2>
+            </div>
             <div class="video-container-main">
                 <video id="videoPlayerMain" class="video-js vjs-theme-forest" controls loop style="border-radius: 10px;"></video>
-                <p class="video-subtitles">{{video_basenames[selected_video_id]}}</p>
             </div>
         </div>
+
+
        <script src="app.js"></script>
 
     </div>

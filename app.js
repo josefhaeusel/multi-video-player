@@ -5,12 +5,14 @@ app = Vue.createApp({
             video_paths: [],
             video_basenames: [],
             video_players: [],
-            selected_video_id: null
+            selected_video_id: null,
+            display_main_player: false,
         }
     },
 
     async mounted() {
 
+        this.modal = document.getElementById("modal-content")
         await this.getVideoPaths();
 
         this.$nextTick(()=>{
@@ -77,14 +79,19 @@ app = Vue.createApp({
         },
         async loadMainVideoPlayer(){
             this.main_video_player = await videojs("videoPlayerMain")
-            // this.updateMainVideo(0)
+
         },
         async updateMainVideo(id){
             this.selected_video_id = id
             this.main_video_player.src({
                 src: this.video_paths[id]
             })
+            this.display_main_player = true
             this.main_video_player.play()
+        },
+        closePlayer(){
+            this.display_main_player=false
+            this.main_video_player.pause()
         }
     }
 })
