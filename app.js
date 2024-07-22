@@ -3,16 +3,19 @@ app = Vue.createApp({
     data() {
         return {
             video_paths: [],
+            video_basenames: [],
             video_players: [],
+            selected_video_id: null
         }
     },
 
     async mounted() {
 
-        this.video_paths = await this.getVideoPaths();
+        await this.getVideoPaths();
+
         this.$nextTick(()=>{
-            console.log(this.$refs)
-            this.loadVideoPlayers();
+            // this.loadVideoPlayers()
+            this.loadMainVideoPlayer()
         })
     },
 
@@ -24,9 +27,17 @@ app = Vue.createApp({
             });
 
             const data = await response.json();
-            console.log("Video Paths", data)
+            console.log("Response", data)
 
-            return data
+            this.video_paths = data.videoPaths
+            this.video_basenames = data.videoBasenames
+
+        },
+        getBasenames(){
+            for (let x = 0; x<this.video_paths.length; x++){
+                const basename = this.video_paths.split('/')[-1].split('')
+                this.video_basenames[x] = basename
+            }
         },
         async loadVideoPlayers(){
             for (let id = 0; id < this.video_paths.length; id++)
@@ -63,7 +74,18 @@ app = Vue.createApp({
             } catch (error) {
                 console.error(`Error loading Video Player (id: ${id})`, error);
             }
-        }, 
+        },
+        async loadMainVideoPlayer(){
+            this.main_video_player = await videojs("videoPlayerMain")
+            // this.updateMainVideo(0)
+        },
+        async updateMainVideo(id){
+            this.selected_video_id = id
+            this.main_video_player.src({
+                src: this.video_paths[id]
+            })
+            this.main_video_player.play()
+        }
     }
 })
 

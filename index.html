@@ -9,6 +9,9 @@
     <script src="imported_modules/vue/vue.global.prod.js"></script>
     <script src="imported_modules/videojs/video.min.js"></script>
     <style>
+        html * {
+            font-family: 'Trebuchet MS', sans-serif;
+        }
         .wrapper {
             display: flex;
             flex-direction: row;
@@ -17,14 +20,32 @@
             padding: 5dvw;
             flex-wrap: wrap;
             justify-content: center;
+            row-gap: 50px;
+        }
+
+        .thumbnail-container{
+            /* Responsive Größe */
+            width:35dvw;
+            height:calc(35dvw*(9/16));
+        }
+
+        .video-container-main{
+            /* Responsive Größe */
+            width:50dvw;
+            height:calc(50dvw*(9/16));
+            margin: 15px;
         }
 
         .video-js.vjs-theme-forest{
-            /* Responsive Größe */
-            width:40dvw;
-            height:calc(40dvw*(9/16));
-            margin: 15px;
-            
+            width:100%;
+            height: 100%;
+        }
+
+        .video-js.vjs-theme-forest .vjs-picture-in-picture-control {
+            display: none
+        }
+        .video-js.vjs-theme-forest .vjs-fullscreen-control {
+            display: none
         }
    
     </style>
@@ -33,9 +54,15 @@
     <div id="app" style="display: flex; justify-content: center;">
         <div class="wrapper">
 
-            <video v-if="video_paths" v-for="(video_path, index) in video_paths" :id="'videoPlayer'+index"
-            class="video-js vjs-theme-forest" controls loop style="border-radius: 10px;"></video>
+            <div v-if="video_paths" v-for="(video_path, index) in video_paths" class="thumbnail-container" style="margin:10px" @click="updateMainVideo(index)">
+                <img class="thumbnail-container" :src="'./videos/'+video_basenames[index]+'.jpg'" style="border-radius: 10px;"></img>
+                <p class="video-subtitles">{{video_basenames[index]}}</p>
+            </div>
 
+            <div class="video-container-main">
+                <video id="videoPlayerMain" class="video-js vjs-theme-forest" controls loop style="border-radius: 10px;"></video>
+                <p class="video-subtitles">{{video_basenames[selected_video_id]}}</p>
+            </div>
         </div>
        <script src="app.js"></script>
 
