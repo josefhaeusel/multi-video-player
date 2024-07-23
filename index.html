@@ -31,9 +31,9 @@
 
         .video-container-main{
             /* Responsive Größe */
-            width:50dvw;
-            height:calc(50dvw*(9/16));
-            margin: 15px;
+            width:70dvw;
+            height:calc(70dvw*(9/16));
+
         }
 
         .video-js.vjs-theme-forest{
@@ -48,27 +48,45 @@
             display: none
         }
 
-        /* Modal Header */
-        .modal-header {
-            padding: 2px 16px;
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000; /* Ensure it appears above other elements */
+            background-color: rgba(0, 0, 0, 0.5); /* Optional: Adds a semi-transparent background */
+            width: 100%; /* Optional: Makes the modal take the full width */
+            height: 100%; /* Optional: Makes the modal take the full height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-
-        /* Modal Content */
         .modal-content {
-            position: absolute;
-            background-color: #fefefe;
-            border: 1px solid #888;
-            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+            background: white;
+            border-radius: 10px;
+            padding: 0px 20px 20px 20px;
+            max-width: 90%; /* Ensures the content does not exceed the screen width */
+            max-height: 90%; /* Ensures the content does not exceed the screen height */
         }
 
-        /* The Close Button */
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         .close {
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+        /* The Close Button */
+        /* .close {
         color: black;
         float: right;
         font-size: 28px;
         font-weight: bold;
-        }
+        } */
 
         .close:hover,
         .close:focus {
@@ -76,6 +94,16 @@
         text-decoration: none;
         cursor: pointer;
         }
+
+        .play-button {
+            position: absolute;
+            height: 64px;
+            width: 64px;
+            cursor: pointer;
+            /* transform: translate(-50%, -50%); */
+        }
+
+        
    
     </style>
 </head>
@@ -84,25 +112,29 @@
         <div class="wrapper">
 
             <div v-if="video_paths" v-for="(video_path, index) in video_paths" class="thumbnail-container" style="margin:10px" @click="updateMainVideo(index)">
-                <img class="thumbnail-container" :src="'./videos/'+video_basenames[index]+'.jpg'" style="border-radius: 10px;"></img>
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <img class="thumbnail-container" :src="'./videos/'+video_basenames[index]+'.jpg'" style="border-radius: 10px;"></img>
+                    <img :src="play_button.hoveredIndex === index ? play_button.fill : play_button.nofill" alt="playbutton" class="play-button" @mouseover="play_button.hoveredIndex = index" @mouseleave="play_button.hoveredIndex = null">                
+                </div>
+                    <!-- <video :id="'videoPlayer'+index" class="video-js vjs-theme-forest" controls loop style="border-radius: 10px; pointer-events: ;"></video> -->
                 <p class="video-subtitles">{{video_basenames[index]}}</p>
             </div>
 
 
         </div>
 
+        <div class="modal" v-show="display_main_player">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>{{video_basenames[selected_video_id]}}</h2>
+                    <span class="close" @click="closePlayer()">&times;</span>
 
-        <div class="modal-content" v-show="display_main_player">
-            <div class="modal-header">
-              <span class="close" @click="closePlayer()">&times;</span>
-              <h2>{{video_basenames[selected_video_id]}}</h2>
-            </div>
-            <div class="video-container-main">
-                <video id="videoPlayerMain" class="video-js vjs-theme-forest" controls loop style="border-radius: 10px;"></video>
+                </div>
+                <div class="video-container-main">
+                    <video id="videoPlayerMain" class="video-js vjs-theme-forest" controls loop style="border-radius: 10px;"></video>
+                </div>
             </div>
         </div>
-
-
        <script src="app.js"></script>
 
     </div>

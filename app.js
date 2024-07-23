@@ -7,6 +7,8 @@ app = Vue.createApp({
             video_players: [],
             selected_video_id: null,
             display_main_player: false,
+            play_button: { fill: "./assets/play_fill.png", nofill: "./assets/play_nofill.png", hoveredIndex: null },
+
         }
     },
 
