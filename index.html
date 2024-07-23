@@ -23,29 +23,44 @@
             row-gap: 50px;
         }
 
-        .thumbnail-container{
+        .thumbnail-container {
             /* Responsive Größe */
-            width:35dvw;
-            height:calc(35dvw*(9/16));
+            width: 35dvw;
+            height: calc(35dvw * (9 / 16));
+            margin: 10px;
+            position: relative;
+            
         }
 
-        .video-container-main{
-            /* Responsive Größe */
-            width:70dvw;
-            height:calc(70dvw*(9/16));
+        .thumbnail-picture {
+            width: 100%;
+            height: 100%;
+            transition: width 0.1s ease, height 0.1s ease;
 
         }
 
-        .video-js.vjs-theme-forest{
-            width:100%;
+        .thumbnail-container:hover .thumbnail-picture {
+            width: 101%;
+            height: 101%;
+        }
+
+        .video-container-main {
+            /* Responsive Größe */
+            width: 70dvw;
+            height: calc(70dvw * (9 / 16));
+        }
+
+        .video-js.vjs-theme-forest {
+            width: 100%;
             height: 100%;
         }
 
         .video-js.vjs-theme-forest .vjs-picture-in-picture-control {
-            display: none
+            display: none;
         }
+
         .video-js.vjs-theme-forest .vjs-fullscreen-control {
-            display: none
+            display: none;
         }
 
         .modal {
@@ -53,10 +68,10 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            z-index: 1000; /* Ensure it appears above other elements */
-            background-color: rgba(0, 0, 0, 0.5); /* Optional: Adds a semi-transparent background */
-            width: 100%; /* Optional: Makes the modal take the full width */
-            height: 100%; /* Optional: Makes the modal take the full height */
+            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.5);
+            width: 100%;
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -66,8 +81,9 @@
             background: white;
             border-radius: 10px;
             padding: 0px 20px 20px 20px;
-            max-width: 90%; /* Ensures the content does not exceed the screen width */
-            max-height: 90%; /* Ensures the content does not exceed the screen height */
+            max-width: 70%;
+            max-height: 90%;
+            z-index: 1;
         }
 
         .modal-header {
@@ -80,19 +96,12 @@
             cursor: pointer;
             font-size: 1.5rem;
         }
-        /* The Close Button */
-        /* .close {
-        color: black;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-        } */
 
         .close:hover,
         .close:focus {
-        color: grey;
-        text-decoration: none;
-        cursor: pointer;
+            color: grey;
+            text-decoration: none;
+            cursor: pointer;
         }
 
         .play-button {
@@ -100,35 +109,36 @@
             height: 64px;
             width: 64px;
             cursor: pointer;
-            /* transform: translate(-50%, -50%); */
         }
 
-        
-   
+        .video-subtitles {
+            position: absolute;
+            bottom: -50px; /* Adjust this value as needed */
+            width: 100%;
+            text-align: center;
+            font-size: 1rem;
+        }
     </style>
 </head>
 <body>
     <div id="app" style="display: flex; justify-content: center;">
         <div class="wrapper">
 
-            <div v-if="video_paths" v-for="(video_path, index) in video_paths" class="thumbnail-container" style="margin:10px" @click="updateMainVideo(index)">
+            <div v-if="video_paths" v-for="(video_path, index) in video_paths" class="thumbnail-container" @click="updateMainVideo(index)">
                 <div style="display: flex; justify-content: center; align-items: center;">
-                    <img class="thumbnail-container" :src="'./videos/'+video_basenames[index]+'.jpg'" style="border-radius: 10px;"></img>
+                    <img class="thumbnail-picture" :src="'./videos/'+video_basenames[index]+'.jpg'" style="border-radius: 10px;"></img>
                     <img :src="play_button.hoveredIndex === index ? play_button.fill : play_button.nofill" alt="playbutton" class="play-button" @mouseover="play_button.hoveredIndex = index" @mouseleave="play_button.hoveredIndex = null">                
                 </div>
-                    <!-- <video :id="'videoPlayer'+index" class="video-js vjs-theme-forest" controls loop style="border-radius: 10px; pointer-events: ;"></video> -->
                 <p class="video-subtitles">{{video_basenames[index]}}</p>
             </div>
-
-
         </div>
 
         <div class="modal" v-show="display_main_player">
+            <div style="top:0; left:0; width: 100%; height: 100%; z-index: 0; position: absolute" @click="closePlayer()"></div>
             <div class="modal-content">
                 <div class="modal-header">
                     <h2>{{video_basenames[selected_video_id]}}</h2>
                     <span class="close" @click="closePlayer()">&times;</span>
-
                 </div>
                 <div class="video-container-main">
                     <video id="videoPlayerMain" class="video-js vjs-theme-forest" controls loop style="border-radius: 10px;"></video>
@@ -140,3 +150,4 @@
     </div>
 
 </body>
+</html>
