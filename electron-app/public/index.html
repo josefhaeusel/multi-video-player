@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="stylesheets/video-js.css" rel="stylesheet" />
+    <link href="stylesheets/vjs-theme-forest.css" rel="stylesheet">
+    <script src="imported_modules/vue/vue.global.prod.js"></script>
+    <script src="imported_modules/videojs/video.min.js"></script>
+    <style>
+        html * {
+            font-family: 'Trebuchet MS', sans-serif;
+        }
+        .wrapper {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 95dvw;
+            padding: 5dvw;
+            flex-wrap: wrap;
+            justify-content: center;
+            row-gap: 50px;
+        }
+
+        .thumbnail-container {
+            /* Responsive Größe */
+            width: 35dvw;
+            height: calc(35dvw * (9 / 16));
+            margin: 10px;
+            position: relative;
+            
+        }
+
+        .thumbnail-picture {
+            width: 100%;
+            height: 100%;
+            transition: width 0.1s ease, height 0.1s ease;
+
+        }
+
+        .thumbnail-container:hover .thumbnail-picture {
+            width: 101%;
+            height: 101%;
+        }
+
+        .video-container-main {
+            /* Responsive Größe */
+            width: 70dvw;
+            height: calc(70dvw * (9 / 16));
+        }
+
+        .video-js.vjs-theme-forest {
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-js.vjs-theme-forest .vjs-picture-in-picture-control {
+            display: none;
+        }
+
+        .video-js.vjs-theme-forest .vjs-fullscreen-control {
+            display: none;
+        }
+
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.5);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            padding: 0px 20px 20px 20px;
+            max-width: 71%;
+            max-height: 90%;
+            z-index: 1;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close {
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: grey;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .play-button {
+            position: absolute;
+            height: 64px;
+            width: 64px;
+            cursor: pointer;
+        }
+
+        .video-subtitles {
+            position: absolute;
+            bottom: -50px; /* Adjust this value as needed */
+            width: 100%;
+            text-align: center;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" style="display: flex; justify-content: center;">
+        <div class="wrapper">
+
+            <div v-if="!video_paths[0]">
+                No videos found.
+            </div>
+
+            <div v-if="video_paths" v-for="(video_path, index) in video_paths" class="thumbnail-container" @click="updateMainVideo(index)">
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <img class="thumbnail-picture" :src="'http://localhost:3000/videos/'+video_basenames[index]+'.jpg'" style="border-radius: 10px;"></img>
+                    <img :src="play_button.hoveredIndex === index ? play_button.fill : play_button.nofill" alt="playbutton" class="play-button" @mouseover="play_button.hoveredIndex = index" @mouseleave="play_button.hoveredIndex = null">                
+                </div>
+                <p class="video-subtitles">{{video_basenames[index]}}</p>
+            </div>
+        </div>
+
+        <div class="modal" v-show="display_main_player">
+            <div style="top:0; left:0; width: 100%; height: 100%; z-index: 0; position: absolute" @click="closePlayer()"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>{{video_basenames[selected_video_id]}}</h2>
+                    <span class="close" @click="closePlayer()">&times;</span>
+                </div>
+                <div class="video-container-main">
+                    <video id="videoPlayerMain" class="video-js vjs-theme-forest" controls loop style="border-radius: 10px;"></video>
+                </div>
+            </div>
+        </div>
+       <script src="app.js"></script>
+
+    </div>
+
+</body>
+</html>
