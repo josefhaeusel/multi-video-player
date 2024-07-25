@@ -2,8 +2,6 @@ const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const { exec } = require('child_process');
 const log = require('electron-log');
-const { create } = require('domain');
-
 
 let nestServer;
 
@@ -11,9 +9,7 @@ function createWindow() {
 
   log.info("Creating Window")
   const mainWindow = new BrowserWindow({
-    // // fullscreen: true,
-    width: 800,
-    height: 400,
+    fullscreen: true,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -21,15 +17,12 @@ function createWindow() {
   });
 
   const startUrl = path.join(__dirname, '..', 'public', 'index.html');
-  // const startUrl = "http://localhost:3000"
   mainWindow.loadFile(startUrl);
 
-  // mainWindow.once('ready-to-show', () => {
   mainWindow.show()
-  // })
 
   // Open the DevTools (optional)
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 }
 
 async function startNestServer(callback) {
