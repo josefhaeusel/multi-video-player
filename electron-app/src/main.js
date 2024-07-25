@@ -1,11 +1,19 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const { exec } = require('child_process');
+const log = require('electron-log');
+const { create } = require('domain');
+
 
 let nestServer;
 
 function createWindow() {
+
+  log.info("Creating Window")
   const mainWindow = new BrowserWindow({
+    // // fullscreen: true,
+    width: 800,
+    height: 400,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -13,40 +21,50 @@ function createWindow() {
   });
 
   const startUrl = path.join(__dirname, '..', 'public', 'index.html');
+  // const startUrl = "http://localhost:3000"
   mainWindow.loadFile(startUrl);
 
+  // mainWindow.once('ready-to-show', () => {
+  mainWindow.show()
+  // })
+
   // Open the DevTools (optional)
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 }
 
-function startNestServer(callback) {
-  nestServer = exec('node ../backend/dist/main.js', (err, stdout, stderr) => {
+async function startNestServer(callback) {
+  const backendUrl = path.join(__dirname, '..', 'backend', 'dist', 'main.js');
+  const nodePath = '/usr/local/bin/node';
+  log.info(nodePath)
+
+  exec(`pkill -f '${backendUrl}'`)
+  nestServer = exec(`'${nodePath}' '${backendUrl}'`, (err, stdout, stderr) => {
     if (err) {
-      console.error(`Error: ${err}`);
+      log.info(`Error: ${err}`);
       return;
     }
-    console.log(`stdout: ${stdout}`);
-    console.error(`stderr: ${stderr}`);
+    log.info(`stdout: ${stdout}`);
+    log.error(`stderr: ${stderr}`);
   });
 
   nestServer.stdout.on('data', (data) => {
+    log.info(data)
+
     if (data.includes('Nest application successfully started')) {
-      setTimeout(callback, 5000); // Wait 5 seconds before calling the callback to ensure the server is fully ready
+      callback()
     }
+
   });
+
 }
 
-startNestServer(createWindow);
+
+app.whenReady().then(() => {
+  startNestServer(createWindow);
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    app.quit();
-    if (nestServer) nestServer.kill(); // Ensure the server is stopped when the app quits
+    app.quit()
   }
-});
-
-app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
-  }
-});
+})
