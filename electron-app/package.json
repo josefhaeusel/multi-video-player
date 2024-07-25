@@ -4,6 +4,7 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron-forge start",
+	  "build": "cd backend; npm run build",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "start:dev": "electron ."
