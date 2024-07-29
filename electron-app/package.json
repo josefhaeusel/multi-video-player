@@ -1,13 +1,22 @@
 {
-  "name": "electron-app",
+  "name": "museum-video-player",
+  "author": "josef.haeusel.klangerfinder",
+  "description": "Adaptive Video Player for Museum.",
   "version": "1.0.0",
   "main": "src/main.js",
   "scripts": {
     "start": "electron-forge start",
-	  "build": "cd backend; npm run build",
+    "build": "cd backend; npm run build",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "start:dev": "electron ."
+  },
+  "build": {
+    "appId": "com.yourcompany.yourapp",
+    "win": {
+      "target": "squirrel",
+      "icon": "icon.png"
+    }
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0",
@@ -48,6 +57,7 @@
     }
   },
   "dependencies": {
-    "electron-log": "^5.1.7"
+    "electron-log": "^5.1.7",
+    "electron-squirrel-startup": "^1.0.1"
   }
 }
