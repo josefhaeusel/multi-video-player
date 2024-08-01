@@ -24,8 +24,8 @@ let VideoParserController = class VideoParserController {
         });
         const videoPaths = videoFiles.map(file => path.join('./videos', file));
         const videoBaseNames = videoPaths.map(videoPath => path.basename(videoPath, path.extname(videoPath)));
-        const videoMainNames = videoBaseNames.map(basename => basename.split('___')[0]);
-        const videoDescriptions = videoBaseNames.map(basename => basename.split('___')[1]);
+        const videoMainNames = videoBaseNames.map(basename => basename.split('+++')[0]);
+        const videoDescriptions = videoBaseNames.map(basename => basename.split('+++')[1]);
         const videoDurations = await Promise.all(videoFiles.map(async (file) => {
             const videoMetadata = await (0, renderer_1.getVideoMetadata)(path.join(videoDir, file));
             const formattedDuration = this.formatDuration(videoMetadata.durationInSeconds);
