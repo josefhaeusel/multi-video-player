@@ -17,7 +17,7 @@ const os = require("os");
 const renderer_1 = require("@remotion/renderer");
 let VideoParserController = class VideoParserController {
     async getVideoPaths() {
-        const videoDir = path.join(os.homedir(), 'my-electron-app-videos');
+        const videoDir = path.join(os.homedir(), 'museum-player-videos');
         const videoFiles = fs.readdirSync(videoDir).filter(file => {
             const ext = path.extname(file).toLowerCase();
             return ['.mp4', '.ogv', '.ogg', '.webm'].includes(ext);

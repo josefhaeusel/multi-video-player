@@ -2,6 +2,12 @@ const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const { exec } = require('child_process');
 const log = require('electron-log');
+const squirrelStartup = require('electron-squirrel-startup');
+
+// Handle creating/removing shortcuts on Windows when installing/uninstalling.
+if (squirrelStartup) {
+    app.quit();
+}
 
 let nestServer;
 
@@ -27,11 +33,11 @@ function createWindow() {
 
 async function startNestServer(callback) {
   const backendUrl = path.join(__dirname, '..', 'backend', 'dist', 'main.js');
-  const nodePath = '/usr/local/bin/node';
+  const nodePath = '/Program Files/nodejs/node';
   log.info(nodePath)
-
+    
   exec(`pkill -f '${backendUrl}'`)
-  nestServer = exec(`'${nodePath}' '${backendUrl}'`, (err, stdout, stderr) => {
+    nestServer = exec(`"${nodePath}" "${backendUrl}"`, (err, stdout, stderr) => {
     if (err) {
       log.info(`Error: ${err}`);
       return;
