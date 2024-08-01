@@ -4,7 +4,7 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron-forge start",
-	  "build": "cd backend; npm run build",
+    "build": "cd backend; npm run build",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "start:dev": "electron ."
@@ -48,6 +48,7 @@
     }
   },
   "dependencies": {
+    "@remotion/renderer": "^4.0.189",
     "electron-log": "^5.1.7"
   }
 }

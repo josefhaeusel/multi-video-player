@@ -9,9 +9,14 @@
     <script src="imported_modules/vue/vue.global.prod.js"></script>
     <script src="imported_modules/videojs/video.min.js"></script>
     <style>
-        html * {
-            font-family: 'Trebuchet MS', sans-serif;
+        body {
+            font-family: 'Campton';
+            background-color: #485833;
+            color: #ffffff;
         }
+    
+        @font-face{font-family:'Campton';font-style:normal;font-weight:500;src:local('Campton'),url(./assets/fonts/CamptonMedium.woff) format('woff')}
+        @font-face{font-family:'Campton';font-style:normal;font-weight:700;src:local('Campton'),url(./assets/fonts/CamptonBold.woff) format('woff')}
         .wrapper {
             display: flex;
             flex-direction: row;
@@ -24,12 +29,9 @@
         }
 
         .thumbnail-container {
-            /* Responsive Größe */
             width: 45vw;
-            height: calc(45vw * (9 / 16));
             margin: 10px;
-            position: relative;
-            
+            position: relative;   
         }
 
         .thumbnail-picture {
@@ -46,11 +48,16 @@
 
         .video-container-main {
             /* Responsive Größe */
-            width: 70vw;
-            height: calc(70vw * (9 / 16));
+            width:85vw;
+            height: calc(85vw * (9 / 16));
+        }
+
+        .video-js {
+            font-family: "Campton",sans-serif;
         }
 
         .video-js.vjs-theme-forest {
+            --vjs-theme-forest--primary: #485833;
             width: 100%;
             height: 100%;
         }
@@ -79,14 +86,16 @@
 
         .modal-content {
             background: white;
-            border-radius: 10px;
+            color: #485833;
+            border-radius: 15px;
             padding: 0px 20px 20px 20px;
-            max-width: 71%;
-            max-height: 90%;
+            /* max-width: 71%;
+            max-height: 90%; */
             z-index: 1;
         }
 
         .modal-header {
+            padding-top: 5px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -94,7 +103,7 @@
 
         .close {
             cursor: pointer;
-            font-size: 1.5rem;
+            font-size: 2.5rem;
         }
 
         .close:hover,
@@ -111,10 +120,13 @@
             cursor: pointer;
         }
 
-        .video-subtitles {
-            width: 100%;
-            text-align: center;
-            font-size: 1rem;
+        .video-title {
+            margin: 25px 0 -8px 0;
+            font-size: 17pt;
+        }
+        .video-subtitle {
+            font-size: 12pt;
+
         }
     </style>
 </head>
@@ -122,16 +134,18 @@
     <div id="app" style="display: flex; justify-content: center;">
         <div class="wrapper">
 
-            <div v-if="!video_paths[0]">
+            <div v-if="video_paths.length === 0">
                 No videos found.
             </div>
 
             <div v-if="video_paths" v-for="(video_path, index) in video_paths" class="thumbnail-container" @click="updateMainVideo(index)">
                 <div style="display: flex; justify-content: center; align-items: center;">
-                    <img class="thumbnail-picture" :src="'http://localhost:3000/videos/'+video_basenames[index]+'.jpg'" style="border-radius: 10px;"></img>
+                    <img class="thumbnail-picture" :src="'http://localhost:3000/videos/'+video_base_names[index]+'.jpg'" style="border-radius: 15px;"></img>
                     <img :src="play_button.hoveredIndex === index ? play_button.fill : play_button.nofill" alt="playbutton" class="play-button" @mouseover="play_button.hoveredIndex = index" @mouseleave="play_button.hoveredIndex = null">                
                 </div>
-                <p class="video-subtitles">{{video_basenames[index]}}</p>
+                <h1 class="video-title">{{video_main_names[index]}}</h1>
+                <p class="video-subtitle"> {{video_descriptions[index]}}</p>
+                <p class="video-subtitle"> {{video_durations[index]}}</p>
             </div>
         </div>
 
@@ -139,11 +153,11 @@
             <div style="top:0; left:0; width: 100%; height: 100%; z-index: 0; position: absolute" @click="closePlayer()"></div>
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2>{{video_basenames[selected_video_id]}}</h2>
+                    <h2>{{video_main_names[selected_video_id]}}</h2>
                     <span class="close" @click="closePlayer()">&times;</span>
                 </div>
                 <div class="video-container-main">
-                    <video id="videoPlayerMain" class="video-js vjs-theme-forest" controls loop style="border-radius: 10px;"></video>
+                    <video id="videoPlayerMain" class="video-js vjs-theme-forest" controls loop style="border-radius: 15px;"></video>
                 </div>
             </div>
         </div>
