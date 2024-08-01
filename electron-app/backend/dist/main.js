@@ -17,7 +17,7 @@ async function bootstrap() {
     app.useStaticAssets(videosDir, {
         prefix: '/videos/',
     });
-    async function createShortcut() {
+    function createShortcut() {
         const desktopDir = path.join(os.homedir(), 'Desktop');
         const shortcutPath = path.join(desktopDir, 'Museum Player Videos.lnk');
         const vbsScript = `
@@ -39,7 +39,7 @@ async function bootstrap() {
             fs.unlinkSync(vbsPath);
         });
     }
-    await createShortcut();
+    createShortcut();
     await app.listen(3000);
 }
 bootstrap();

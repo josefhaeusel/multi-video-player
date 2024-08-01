@@ -33,7 +33,11 @@ function createWindow() {
 
 async function startNestServer(callback) {
   const backendUrl = path.join(__dirname, '..', 'backend', 'dist', 'main.js');
-  const nodePath = '/Program Files/nodejs/node';
+  let nodePath = '/Program Files/nodejs/node';
+  
+  if (process.platform == 'darwin') {
+    nodePath = 'node';
+  }
   log.info(nodePath)
     
   exec(`pkill -f '${backendUrl}'`)
