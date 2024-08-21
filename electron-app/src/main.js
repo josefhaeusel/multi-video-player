@@ -1,6 +1,8 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const { exec } = require('child_process');
+const { killPortProcess } = require('kill-port-process');
+
 const log = require('electron-log');
 const squirrelStartup = require('electron-squirrel-startup');
 
@@ -70,4 +72,9 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
+})
+
+app.on('before-quit', async () => {
+  await killPortProcess(3000)
+  console.log("Killed Backend Port 3000 before quit.")
 })

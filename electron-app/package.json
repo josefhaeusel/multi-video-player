@@ -59,6 +59,7 @@
   "dependencies": {
     "@remotion/renderer": "^4.0.189",
     "electron-log": "^5.1.7",
-    "electron-squirrel-startup": "^1.0.1"
+    "electron-squirrel-startup": "^1.0.1",
+    "kill-port-process": "^3.2.1"
   }
 }
