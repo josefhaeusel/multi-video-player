@@ -19,9 +19,13 @@ function createWindow() {
       nodeIntegration: true,
       contextIsolation: false,
     },
+    titleBarStyle: 'hidden',
+  
   });
 
-  mainWindow.setAlwaysOnTop(true, 'screen-saver');
+  mainWindow.setAlwaysOnTop(true, 'normal');
+  mainWindow.setMenuBarVisibility(false)
+
   const startUrl = path.join(app.getAppPath(), 'public', 'index.html');
   mainWindow.loadFile(startUrl);
   mainWindow.show();
