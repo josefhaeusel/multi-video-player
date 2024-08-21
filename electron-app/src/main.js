@@ -22,7 +22,7 @@ function createWindow() {
     },
   });
 
-  const startUrl = path.join(__dirname, '..', 'public', 'index.html');
+  const startUrl = path.join(app.getAppPath(), 'public', 'index.html');
   mainWindow.loadFile(startUrl);
 
   mainWindow.show()
@@ -32,7 +32,7 @@ function createWindow() {
 }
 
 async function startNestServer(callback) {
-  const backendUrl = path.join(__dirname, '..', 'backend', 'dist', 'main.js');
+  const backendUrl = path.join(app.getAppPath(), 'backend', 'dist', 'main.js');
   let nodePath = '/Program Files/nodejs/node';
   
   if (process.platform == 'darwin') {
