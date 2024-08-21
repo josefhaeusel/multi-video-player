@@ -24,9 +24,9 @@ function createWindow() {
     },
   });
 
+  mainWindow.setAlwaysOnTop(true, 'screen-saver');
   const startUrl = path.join(app.getAppPath(), 'public', 'index.html');
   mainWindow.loadFile(startUrl);
-
   mainWindow.show()
 
   // Open the DevTools (optional)
@@ -60,9 +60,7 @@ async function startNestServer(callback) {
     }
 
   });
-
 }
-
 
 app.whenReady().then(() => {
   startNestServer(createWindow);
