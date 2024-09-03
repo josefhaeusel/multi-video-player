@@ -10,6 +10,8 @@ const app = Vue.createApp({
             selected_video_id: null,
             display_main_player: false,
             play_button: { fill: "./assets/play_fill.png", nofill: "./assets/play_nofill.png", hoveredIndex: null },
+            close: {timesClicked: 0, lastClickTime: null},
+
         };
     },
     async mounted() {
@@ -21,6 +23,28 @@ const app = Vue.createApp({
         });
     },
     methods: {
+        handleCloseButton() {
+            const date = new Date();
+            const currentTime = date.getTime()
+            const timePassed = currentTime - this.close.lastClickTime
+            
+            if (timePassed<1000) {
+                this.close.timesClicked++
+            } else {
+                this.close.timesClicked = 1
+            }
+
+            this.close.lastClickTime = date.getTime();
+            console.log(this.close.timesClicked, timePassed)
+
+            if (this.close.timesClicked >= 3){
+                console.log("Close")
+                const { ipcRenderer } = require('electron');
+                ipcRenderer.send('quit-app');
+            }
+
+        },
+
         async getVideoPaths() {
             try {
                 const response = await fetch('http://localhost:3000/video-parser/getVideoPaths', {

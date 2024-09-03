@@ -145,13 +145,23 @@
         }
         .video-subtitle {
             font-size: 12pt;
-
+        }
+        .close-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 100;
+            width: 30px;
+            background: rgba(0, 0, 0, 0.05);
+            height: 30px;
+            border: none;
         }
     </style>
 </head>
 <body>
     <div id="app" style="display: flex; justify-content: center;">
         <div class="wrapper">
+            <button class="close-button" @click="handleCloseButton"></button>
 
             <div v-if="video_paths.length === 0">
                 No videos found.

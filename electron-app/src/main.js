@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const { exec } = require('child_process');
 const log = require('electron-log');
@@ -67,6 +67,10 @@ async function startNestServer(callback) {
 app.whenReady().then(() => {
   startNestServer(createWindow);
 });
+
+ipcMain.on('quit-app', () => {
+  app.quit()
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
