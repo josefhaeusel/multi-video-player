@@ -77,8 +77,17 @@
 
         .video-js.vjs-theme-forest {
             --vjs-theme-forest--primary: #485833;
+            --vjs-theme-forest--secondary: #dcdcdc;
             width: 100%;
             height: 100%;
+        }
+
+        .video-js.vjs-theme-forest .vjs-play-progress {
+            background-color: var(--vjs-theme-forest--secondary);
+        }
+
+        .vjs-remaining-time-display {
+            color: var(--vjs-theme-forest--secondary);
         }
 
         .video-js.vjs-theme-forest .vjs-picture-in-picture-control {
@@ -186,7 +195,7 @@
                     <span class="close" @click="closePlayer()">&times;</span>
                 </div>
                 <div class="video-container-main">
-                    <video id="videoPlayerMain" class="video-js vjs-theme-forest" controls loop style="border-radius: 15px;"></video>
+                    <video id="videoPlayerMain" class="video-js vjs-theme-forest" controls style="border-radius: 15px;"></video>
                 </div>
             </div>
         </div>

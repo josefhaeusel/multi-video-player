@@ -18,8 +18,13 @@ const app = Vue.createApp({
         this.modal = document.getElementById("modal-content");
         await this.getVideoPaths();
 
-        this.$nextTick(() => {
-            this.loadMainVideoPlayer();
+        this.$nextTick( async () => {
+            await this.loadMainVideoPlayer();
+            this.main_video_player.on("ended", () => {
+                console.log("ENDED")
+                this.closePlayer()
+            })
+
         });
     },
     methods: {
@@ -84,8 +89,6 @@ const app = Vue.createApp({
             this.display_main_player = false;
             this.main_video_player.pause();
         },
-
-
         async loadVideoPlayers() {
             for (let id = 0; id < this.video_paths.length; id++) {
                 this.loadVideoPlayer(id);
