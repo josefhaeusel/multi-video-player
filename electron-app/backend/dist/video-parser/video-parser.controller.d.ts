@@ -1,5 +1,6 @@
 export declare class VideoParserController {
     getVideoPaths(): Promise<{
+        videoDir: string;
         videoPaths: string[];
         videoBaseNames: string[];
         videoMainNames: string[];
