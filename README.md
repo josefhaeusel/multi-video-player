@@ -1,11 +1,28 @@
-# Adaptive Multi Video Player
+# 🎥 Adaptive Multi Video Player
 
-## Import Videos
- into folder '/museum-player-videos' (created at installation)
- Videos are best displayed in 1920x1080 .mp4
+## 📂 Importing Videos
 
-## Title and Author are parsed in this form:
-`
-{title}+++{author}.mp4
-// Example: Cat Video+++Cat Museum Association.mp4
-`
+Place your video files into the folder:  
+`/museum-player-videos`  
+*(This folder is automatically created during installation.)*
+
+> 💡 **Best format:** Videos are best displayed in **1920×1080** resolution and **.mp4** format.
+
+---
+
+## 🏷️ Filename Format: Title & Author
+
+To automatically extract the **Title** and **Author**, name your video files like this:
+
+```
+{Title}+++{Author}.mp4
+```
+
+### Example:
+```
+Cat Video+++Cat Museum Association.mp4
+```
+
+This will display as:
+- **Title:** Cat Video  
+- **Author:** Cat Museum Association
