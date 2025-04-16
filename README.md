@@ -1,10 +1,11 @@
 # Adaptive Multi Video Player
 
-## Import Videos (optimized for 1920x1080 .mp4) into folder '/museum-player-videos' (created at installation)
+## Import Videos
+ into folder '/museum-player-videos' (created at installation)
+ Videos are best displayed in 1920x1080 .mp4
 
-### Title and Author are parsed in this form:
+## Title and Author are parsed in this form:
 `
 {title}+++{author}.mp4
 // Example: Cat Video+++Cat Museum Association.mp4
 `
-path.join(os.homedir(), 'museum-player-videos');
