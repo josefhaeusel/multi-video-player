@@ -29,7 +29,7 @@ This will display as:
 
 ---
 
-## 🖼️ Optional Cover Images
+## 🖼️ Cover Images
 
 To display a **cover image** (thumbnail) for each video, save a `.jpg` image in the same folder with **the exact same filename** as the `.mp4` video.
 
